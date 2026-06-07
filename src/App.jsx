@@ -35,8 +35,11 @@ export default function App() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
-  // ✅ ONLY CHECK HOME ROUTE
-  const isHomePage = location.pathname === "/";
+  // ✅ FIX: works for localhost + GitHub Pages + Netlify
+  const isHomePage =
+    location.pathname === "/" ||
+    location.pathname === "/book-library/" ||
+    location.pathname === "/book-library";
 
   return (
     <div
@@ -46,7 +49,7 @@ export default function App() {
           : "bg-[#fdfaf6] text-black"
       }`}
     >
-      {/* ✅ Navbar hidden only on Home page */}
+      {/* ✅ Navbar hidden ONLY on Home page */}
       {!isHomePage && (
         <Navbar theme={theme} setTheme={setTheme} />
       )}
