@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom"; // Added useLocation here
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
@@ -22,7 +22,7 @@ import { useTheme } from "./context/ThemeContext";
 
 export default function App() {
   const { theme, setTheme } = useTheme();
-  const location = useLocation(); // Hook to listen to route changes
+  const location = useLocation();
 
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("favorites");
@@ -32,14 +32,14 @@ export default function App() {
   const [selectedGenre, setSelectedGenre] = useState("Fantasy");
 
   useEffect(() => {
-    localStorage.setItem(
-      "favorites",
-      JSON.stringify(favorites)
-    );
+    localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
-  // Check if the user is explicitly viewing the home domain route "/"
-  const isHomePage = location.pathname === "/";
+  // ✅ FIXED: works for both localhost + GitHub Pages + Netlify
+  const isHomePage =
+    location.pathname === "/" ||
+    location.pathname === "/book-library/" ||
+    location.pathname === import.meta.env.BASE_URL;
 
   return (
     <div
@@ -49,31 +49,18 @@ export default function App() {
           : "bg-[#fdfaf6] text-black"
       }`}
     >
-      {/* Dynamic Render: Navbar will now only mount if you are NOT on the landing home route */}
-      {!isHomePage && (
-        <Navbar
-          theme={theme}
-          setTheme={setTheme}
-        />
-      )}
+      {/* Navbar always visible (FIXED) */}
+      <Navbar theme={theme} setTheme={setTheme} />
 
       <main className="flex-1">
         <Routes>
-
           {/* HOME */}
-          <Route
-            path="/"
-            element={<Home />}
-          />
+          <Route path="/" element={<Home />} />
 
           {/* SEARCH */}
           <Route
             path="/search"
-            element={
-              <SearchBar
-                theme={theme}
-              />
-            }
+            element={<SearchBar theme={theme} />}
           />
 
           {/* LIBRARY */}
@@ -87,20 +74,12 @@ export default function App() {
             }
           />
 
-          {/* ORIGINAL GENRES PAGE */}
-          <Route
-            path="/genres"
-            element={
-              <GenreLayout />
-            }
-          >
-            <Route
-              path=":genreName"
-              element={<GenrePage />}
-            />
+          {/* GENRES */}
+          <Route path="/genres" element={<GenreLayout />}>
+            <Route path=":genreName" element={<GenrePage />} />
           </Route>
 
-          {/* KEEP YOUR EXISTING GENRES COMPONENT */}
+          {/* GENRES OVERVIEW */}
           <Route
             path="/genres-overview"
             element={
@@ -111,11 +90,8 @@ export default function App() {
             }
           />
 
-          {/* BOOK DETAILS (Dynamic Route) */}
-          <Route
-            path="/books/:id"
-            element={<BookDetails />}
-          />
+          {/* BOOK DETAILS */}
+          <Route path="/books/:id" element={<BookDetails />} />
 
           {/* SUGGESTIONS */}
           <Route
@@ -128,13 +104,11 @@ export default function App() {
             }
           />
 
-          {/* PROTECTED ROUTE */}
+          {/* FAVORITES */}
           <Route
             path="/favorites"
             element={
-              <ProtectedRoute
-                isAllowed={favorites.length > 0}
-              >
+              <ProtectedRoute isAllowed={favorites.length > 0}>
                 <Favorites
                   favorites={favorites}
                   theme={theme}
@@ -146,19 +120,11 @@ export default function App() {
           {/* PROFILE */}
           <Route
             path="/profile"
-            element={
-              <Profile
-                theme={theme}
-              />
-            }
+            element={<Profile theme={theme} />}
           />
 
           {/* CONTACT */}
-          <Route
-            path="/contact"
-            element={<ContactForm />}
-          />
-
+          <Route path="/contact" element={<ContactForm />} />
         </Routes>
       </main>
 
