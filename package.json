@@ -2,23 +2,26 @@
   "name": "book-library",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://shrenikareddy08.github.io/book-library",
   "type": "module",
+
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
-    "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest"
-  }
-,
+
+    "lint": "eslint .",
+    "test": "vitest",
+
+    "predeploy": "npm run build",
+    "deploy:gh": "gh-pages -d dist"
+  },
+
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.30.3"
   },
+
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@testing-library/jest-dom": "^6.9.1",
