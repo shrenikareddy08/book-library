@@ -34,11 +34,13 @@ export default function App() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
-  // ✅ FIXED: robust GitHub Pages + local routing support
+  // ✅ GitHub Pages base path
   const base = "/book-library";
 
-  const path = location.pathname.replace(/\/+$/, ""); // remove trailing slash
+  // normalize path (remove trailing slash)
+  const path = location.pathname.replace(/\/+$/, "");
 
+  // ✅ robust home detection
   const isHomePage =
     path === "/" ||
     path === base ||
@@ -52,7 +54,7 @@ export default function App() {
           : "bg-[#fdfaf6] text-black"
       }`}
     >
-      {/* ✅ Navbar hidden ONLY on Home page */}
+      {/* ✅ Navbar hidden only on home */}
       {!isHomePage && (
         <Navbar theme={theme} setTheme={setTheme} />
       )}
