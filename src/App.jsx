@@ -35,11 +35,8 @@ export default function App() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
-  // ✅ FIXED: works for both localhost + GitHub Pages + Netlify
-  const isHomePage =
-    location.pathname === "/" ||
-    location.pathname === "/book-library/" ||
-    location.pathname === import.meta.env.BASE_URL;
+  // ✅ ONLY CHECK HOME ROUTE
+  const isHomePage = location.pathname === "/";
 
   return (
     <div
@@ -49,21 +46,20 @@ export default function App() {
           : "bg-[#fdfaf6] text-black"
       }`}
     >
-      {/* Navbar always visible (FIXED) */}
-      <Navbar theme={theme} setTheme={setTheme} />
+      {/* ✅ Navbar hidden only on Home page */}
+      {!isHomePage && (
+        <Navbar theme={theme} setTheme={setTheme} />
+      )}
 
       <main className="flex-1">
         <Routes>
-          {/* HOME */}
           <Route path="/" element={<Home />} />
 
-          {/* SEARCH */}
           <Route
             path="/search"
             element={<SearchBar theme={theme} />}
           />
 
-          {/* LIBRARY */}
           <Route
             path="/library"
             element={
@@ -74,12 +70,10 @@ export default function App() {
             }
           />
 
-          {/* GENRES */}
           <Route path="/genres" element={<GenreLayout />}>
             <Route path=":genreName" element={<GenrePage />} />
           </Route>
 
-          {/* GENRES OVERVIEW */}
           <Route
             path="/genres-overview"
             element={
@@ -90,10 +84,8 @@ export default function App() {
             }
           />
 
-          {/* BOOK DETAILS */}
           <Route path="/books/:id" element={<BookDetails />} />
 
-          {/* SUGGESTIONS */}
           <Route
             path="/suggestions"
             element={
@@ -104,7 +96,6 @@ export default function App() {
             }
           />
 
-          {/* FAVORITES */}
           <Route
             path="/favorites"
             element={
@@ -117,13 +108,11 @@ export default function App() {
             }
           />
 
-          {/* PROFILE */}
           <Route
             path="/profile"
             element={<Profile theme={theme} />}
           />
 
-          {/* CONTACT */}
           <Route path="/contact" element={<ContactForm />} />
         </Routes>
       </main>
