@@ -17,7 +17,6 @@ import GenrePage from "./components/GenrePage";
 import BookDetails from "./components/BookDetails";
 
 import ProtectedRoute from "./components/ProtectedRoute";
-
 import { useTheme } from "./context/ThemeContext";
 
 export default function App() {
@@ -35,11 +34,15 @@ export default function App() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
-  // ✅ FIX: works for localhost + GitHub Pages + Netlify
+  // ✅ FIXED: robust GitHub Pages + local routing support
+  const base = "/book-library";
+
+  const path = location.pathname.replace(/\/+$/, ""); // remove trailing slash
+
   const isHomePage =
-    location.pathname === "/" ||
-    location.pathname === "/book-library/" ||
-    location.pathname === "/book-library";
+    path === "/" ||
+    path === base ||
+    path === `${base}/`;
 
   return (
     <div
@@ -58,10 +61,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
 
-          <Route
-            path="/search"
-            element={<SearchBar theme={theme} />}
-          />
+          <Route path="/search" element={<SearchBar theme={theme} />} />
 
           <Route
             path="/library"
@@ -80,10 +80,7 @@ export default function App() {
           <Route
             path="/genres-overview"
             element={
-              <Genres
-                selectedGenre={selectedGenre}
-                theme={theme}
-              />
+              <Genres selectedGenre={selectedGenre} theme={theme} />
             }
           />
 
@@ -103,18 +100,12 @@ export default function App() {
             path="/favorites"
             element={
               <ProtectedRoute isAllowed={favorites.length > 0}>
-                <Favorites
-                  favorites={favorites}
-                  theme={theme}
-                />
+                <Favorites favorites={favorites} theme={theme} />
               </ProtectedRoute>
             }
           />
 
-          <Route
-            path="/profile"
-            element={<Profile theme={theme} />}
-          />
+          <Route path="/profile" element={<Profile theme={theme} />} />
 
           <Route path="/contact" element={<ContactForm />} />
         </Routes>
