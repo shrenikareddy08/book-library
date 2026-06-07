@@ -34,7 +34,7 @@ export default function App() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
-  // ✅ FIXED: correct home page detection
+
   const isHomePage = location.pathname === "/";
 
   return (
@@ -45,7 +45,7 @@ export default function App() {
           : "bg-[#fdfaf6] text-black"
       }`}
     >
-      {/* Navbar hidden only on Home */}
+
       {!isHomePage && (
         <Navbar theme={theme} setTheme={setTheme} />
       )}
@@ -89,14 +89,14 @@ export default function App() {
             }
           />
 
-          <Route
-            path="/favorites"
-            element={
-              <ProtectedRoute isAllowed={favorites.length > 0}>
-                <Favorites favorites={favorites} theme={theme} />
-              </ProtectedRoute>
-            }
-          />
+        <Route
+  path="/favorites"
+  element={
+    <ProtectedRoute isAllowed={favorites.length > 0}>
+      <Favorites favorites={favorites} theme={theme} />
+    </ProtectedRoute>
+  }
+/>
 
           <Route path="/profile" element={<Profile theme={theme} />} />
 
