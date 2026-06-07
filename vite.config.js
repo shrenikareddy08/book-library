@@ -1,15 +1,9 @@
-import { defineConfig } from "vitest/config";
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-export default defineConfig({
-  base: "/book-library/",
-  plugins: [react()],
-  esbuild: {
-    jsx: "automatic",
-  },
-  test: {
-    environment: "jsdom",
-    globals: true,
-    setupFiles: "./src/setupTests.js",
-  },
+export default defineConfig(({ command }) => {
+  return {
+    base: command === "build" ? "/book-library/" : "/",
+    plugins: [react()],
+  };
 });
