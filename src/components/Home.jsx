@@ -4,7 +4,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-   <div className="relative min-h-screen w-full flex items-center justify-center px-6 pt-24 text-white">
+    <div className="relative min-h-screen w-full flex items-center justify-center px-6 pt-24 text-white">
 
       <div className="absolute inset-0">
         <img
