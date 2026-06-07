@@ -1,5 +1,5 @@
 import React from "react";
-import Fallback from "./Fallback.jsx";
+import Fallback from "./FallBack.jsx";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
